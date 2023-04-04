@@ -31,7 +31,8 @@ app.post('/addtask', async (req, res) => {
     res.send(response);
 })
 app.get('/alltask', async (req, res) => {
-    const tasks = await taskModel.find({ ipaddress: req.socket.remoteAddress })
+    // const filter = { ipaddress: req.socket.remoteAddress };
+    const tasks = await taskModel.find({})
     console.log(req.socket.remoteAddress)
     res.json(tasks);
 })
