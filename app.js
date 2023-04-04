@@ -33,9 +33,8 @@ app.post('/addtask', async (req, res) => {
     res.send(response);
 })
 app.get('/alltask', async (req, res) => {
-    // const filter = { ipaddress: req.socket.remoteAddress };
-    const tasks = await taskModel.find({})
-    console.log(req.socket.remoteAddress)
+    const inArray = ["0.0.0.0/0", req.socket.remoteAddress];
+    const tasks = await taskModel.find({ ipaddress: { $in: inArray } })
     res.json(tasks);
 })
 app.delete("/deletetask", async (req, res) => {
