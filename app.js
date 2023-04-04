@@ -24,8 +24,10 @@ app.get('/', (req, res) => {
 })
 app.post('/addtask', async (req, res) => {
     const task = new taskModel({
-        ...req.body,
-        ipaddress: req.socket.remoteAddress
+        title: req.body.title,
+        date: req.body.date,
+        type: req.body.type,
+        ipaddress: req.body.publicTimer ? "0.0.0.0/0" : req.socket.remoteAddress
     })
     const response = await task.save();
     res.send(response);
