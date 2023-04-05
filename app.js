@@ -19,27 +19,27 @@ app.use(cors());
 
 app.get('/', (req, res) => {
     // const response = ["Aman", "Shipra"];
-    console.log(req.socket.remoteAddress)
-    res.send(req.socket.remoteAddress)
+    console.log(req.ip)
+    res.send(req.ip)
 })
 app.post('/addtask', async (req, res) => {
     const task = new taskModel({
         title: req.body.title,
         date: req.body.date,
         type: req.body.type,
-        ipaddress: req.body.publicTimer ? "0.0.0.0/0" : req.socket.remoteAddress
+        ipaddress: req.body.publicTimer ? "0.0.0.0/0" : req.ip
     })
     const response = await task.save();
     res.send(response);
 })
 app.get('/alltask', async (req, res) => {
-    const tasks = await taskModel.find({ ipaddress:req.socket.remoteAddress})
+    const tasks = await taskModel.find({ ipaddress:req.ip})
     const publicTasks =  await taskModel.find({ipaddress:"0.0.0.0/0"})
     res.json({yourTasks:tasks,publicTasks});
 })
 app.delete("/deletetask", async (req, res) => {
     const response = await taskModel.findByIdAndDelete(req.body._id)
-    console.log(req.socket.remoteAddress)
+    console.log(req.ip)
     res.json(response);
 })
 
