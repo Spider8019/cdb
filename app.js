@@ -34,7 +34,7 @@ app.post('/addtask', async (req, res) => {
     res.send(response);
 })
 app.get('/alltask', async (req, res) => {
-    const tasks = await taskModel.find({ ipaddress:req.ip})
+    const tasks = await taskModel.find({ ipaddress:ip.address()})
     const publicTasks =  await taskModel.find({ipaddress:"0.0.0.0/0"})
     res.json({yourTasks:tasks,publicTasks});
 })
