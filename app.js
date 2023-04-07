@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const taskModel = require("./models/task")
 const app = express()
+const ip=require('ip')
 const port = 4000
 
 mongoose.connect('mongodb+srv://cduser:Spider8019@cluster0.u9p42lo.mongodb.net/?retryWrites=true&w=majority',
@@ -20,14 +21,14 @@ app.use(cors());
 app.get('/', (req, res) => {
     // const response = ["Aman", "Shipra"];
     console.log(req.ip)
-    res.send(req.ip)
+    res.send(req.ip+" "+ip.address());
 })
 app.post('/addtask', async (req, res) => {
     const task = new taskModel({
         title: req.body.title,
         date: req.body.date,
         type: req.body.type,
-        ipaddress: req.body.publicTimer ? "0.0.0.0/0" : req.ip
+        ipaddress: req.body.publicTimer ? "0.0.0.0/0" : ip.address()
     })
     const response = await task.save();
     res.send(response);
