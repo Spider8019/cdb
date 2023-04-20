@@ -34,9 +34,8 @@ app.post('/addtask', async (req, res) => {
     res.send(response);
 })
 app.get('/alltask', async (req, res) => {
-    const tasks = await taskModel.find({ ipaddress:ip.address()})
-    const publicTasks =  await taskModel.find({ipaddress:"0.0.0.0/0"})
-    res.json({yourTasks:tasks,publicTasks});
+    const tasks = await taskModel.find({ ipaddress:ip.address(),})
+    res.json(tasks);
 })
 app.delete("/deletetask", async (req, res) => {
     const response = await taskModel.findByIdAndDelete(req.body._id)

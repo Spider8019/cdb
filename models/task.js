@@ -19,7 +19,7 @@ const taskSchema = new mongoose.Schema({
         required: true,
         default: "0.0.0.0/0"
     }
-});
+}, { timestamps: true });
 
 const Tasks = mongoose.model("Task", taskSchema);
 
