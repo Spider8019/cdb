@@ -3,7 +3,6 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const taskModel = require("./models/task")
 const app = express()
-const ip = require('ip')
 const port = 4000
 
 mongoose.connect('mongodb+srv://cduser:Spider8019@cluster0.u9p42lo.mongodb.net/?retryWrites=true&w=majority',
