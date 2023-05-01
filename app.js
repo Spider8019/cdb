@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const taskModel = require("./models/task")
 const app = express()
-const ip=require('ip')
+const ip = require('ip')
 const port = 4000
 
 mongoose.connect('mongodb+srv://cduser:Spider8019@cluster0.u9p42lo.mongodb.net/?retryWrites=true&w=majority',
@@ -19,7 +19,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 app.get('/', (req, res) => {
-    const response="aman pratap singh"
+    const response = "aman pratap singh"
     res.send(response);
 })
 app.post('/addtask', async (req, res) => {
@@ -31,6 +31,11 @@ app.post('/addtask', async (req, res) => {
     const response = await task.save();
     console.log(response)
     res.send(response);
+})
+app.post("/recreatetask", async (req, res) => {
+    const task = await taskModel.findOne({ _id: req.body.id })
+    const response = await taskModel.findByIdAndUpdate(req.body.id, { date: [...task.date.slice(0, -1), task.date[task.date.length - 1] - (new Date().getTime()), new Date().getTime()] })
+    res.send(response)
 })
 app.get('/alltask', async (req, res) => {
     const tasks = await taskModel.find({})
