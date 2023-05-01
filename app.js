@@ -17,9 +17,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
-app.get('/', (req, res) => {
+app.get('/', async(req, res) => {
     const response = "aman pratap singh"
-    res.send(response);
+    const task = await taskModel.findById("644f471a3c7d565eb5cda996")
+    console.log(task)    
+    res.send(task);
 })
 app.post('/addtask', async (req, res) => {
     const task = new taskModel({
@@ -32,8 +34,9 @@ app.post('/addtask', async (req, res) => {
     res.send(response);
 })
 app.post("/recreatetask", async (req, res) => {
-    const task = await taskModel.findOne({ _id: req.body.id })
-    const response = await taskModel.findByIdAndUpdate(req.body.id, { date: [...task.date.slice(0, -1), task.date[task.date.length - 1] - (new Date().getTime()), new Date().getTime()] })
+    const task = await taskModel.findById(req.body.id)
+    console.log(task)
+    const response = await taskModel.findByIdAndUpdate(req.body.id, { date: [...task.date.slice(0, -1), (new Date().getTime()) - task.date[task.date.length - 1], new Date().getTime()] })
     res.send(response)
 })
 app.get('/alltask', async (req, res) => {
