@@ -25,7 +25,7 @@ app.get('/', (req, res) => {
 app.post('/addtask', async (req, res) => {
     const task = new taskModel({
         title: req.body.title,
-        date: [req.body.date],
+        date: req.body.date,
         type: req.body.type,
     })
     const response = await task.save();
