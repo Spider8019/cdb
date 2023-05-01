@@ -29,6 +29,7 @@ app.post('/addtask', async (req, res) => {
         type: req.body.type,
     })
     const response = await task.save();
+    console.log(response)
     res.send(response);
 })
 app.get('/alltask', async (req, res) => {

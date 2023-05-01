@@ -1,19 +1,14 @@
 const mongoose = require("mongoose");
 
-
-const subSchema = new mongoose.Schema({
-    date: {
-        type: Number,
-        required: true,
-    }
-});
-
 const taskSchema = new mongoose.Schema({
     title: {
         type: String,
         required: true,
     },
-    date: [subSchema],
+    date: [{
+        type: Number,
+        required: true,
+    }],
     type: {
         type: String,
         enum: ["+", "-"],
