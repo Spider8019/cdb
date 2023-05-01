@@ -1,23 +1,23 @@
 const mongoose = require("mongoose");
 
+
+const subSchema = new mongoose.Schema({
+    date: {
+        type: Number,
+        required: true,
+    }
+});
+
 const taskSchema = new mongoose.Schema({
     title: {
         type: String,
         required: true,
     },
-    date: {
-        type: Number,
-        required: true,
-    },
+    date: [subSchema],
     type: {
         type: String,
         enum: ["+", "-"],
         required: true,
-    },
-    ipaddress: {
-        type: String,
-        required: true,
-        default: "0.0.0.0/0"
     }
 }, { timestamps: true });
 

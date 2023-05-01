@@ -19,27 +19,24 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 app.get('/', (req, res) => {
-    // const response = ["Aman", "Shipra"];
-    console.log(req.ip)
-    res.send(req.ip+" "+ip.address());
+    const response="aman pratap singh"
+    res.send(response);
 })
 app.post('/addtask', async (req, res) => {
     const task = new taskModel({
         title: req.body.title,
-        date: req.body.date,
+        date: [req.body.date],
         type: req.body.type,
-        ipaddress: req.body.publicTimer ? "0.0.0.0/0" : ip.address()
     })
     const response = await task.save();
     res.send(response);
 })
 app.get('/alltask', async (req, res) => {
-    const tasks = await taskModel.find({ ipaddress:ip.address(),})
+    const tasks = await taskModel.find({})
     res.json(tasks);
 })
 app.delete("/deletetask", async (req, res) => {
     const response = await taskModel.findByIdAndDelete(req.body._id)
-    console.log(req.ip)
     res.json(response);
 })
 
