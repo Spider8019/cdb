@@ -5,7 +5,7 @@ const taskModel = require('./models/task')
 const app = express()
 const axios = require('axios')
 const port = 4000
-const verifyJwt = require('./middleware/auth')
+const { auth } = require('express-oauth2-jwt-bearer')
 
 mongoose
   .connect(
@@ -21,9 +21,12 @@ mongoose
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cors())
-// app.use(verifyJwt)
+const checkJwt = auth({
+  audience: 'this api is created first time for testing purposse',
+  issuerBaseURL: 'https://dev-j5c8r52qumbdfppi.us.auth0.com/',
+})
 
-app.get('/protectedroute', async (req, res) => {
+app.get('/protectedroute', checkJwt, async (req, res) => {
   res.send('you are on protected route')
 })
 app.get('/', async (req, res) => {
@@ -53,7 +56,7 @@ app.post('/recreatetask', async (req, res) => {
   })
   res.send(response)
 })
-app.get('/alltask', async (req, res) => {
+app.get('/alltask', checkJwt, async (req, res) => {
   const tasks = await taskModel.find({})
   res.json(tasks)
 })
