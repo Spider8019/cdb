@@ -56,7 +56,7 @@ app.post('/recreatetask', async (req, res) => {
   })
   res.send(response)
 })
-app.get('/alltask', async (req, res) => {
+app.get('/alltask', checkJwt, async (req, res) => {
   const tasks = await taskModel.find({})
   res.json(tasks)
 })
