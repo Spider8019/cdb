@@ -21,7 +21,7 @@ mongoose
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cors())
-app.use(verifyJwt)
+// app.use(verifyJwt)
 
 app.get('/protectedroute', async (req, res) => {
   res.send('you are on protected route')
