@@ -6,6 +6,9 @@ const app = express()
 const axios = require('axios')
 const port = 4000
 const { auth } = require('express-oauth2-jwt-bearer')
+// const jwt = require('jsonwebtoken')
+const jwksRsa = require('jwks-rsa')
+const { expressjwt: jwt } = require('express-jwt')
 
 mongoose
   .connect(
@@ -21,14 +24,37 @@ mongoose
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cors())
-const checkJwt = auth({
-  audience: 'this api is created first time for testing purposse',
-  issuerBaseURL: 'https://dev-j5c8r52qumbdfppi.us.auth0.com/',
-})
+// const checkJwt = auth({
+//   audience: 'this api is created first time for testing purposse',
+//   issuerBaseURL: 'https://dev-j5c8r52qumbdfppi.us.auth0.com/',
+// })
 
-app.get('/protectedroute', checkJwt, async (req, res) => {
-  res.send('you are on protected route')
-})
+// const authConfig = {
+//   domain:'dev-j5c8r52qumbdfppi.us.auth0.com',
+//   audience: "this api is created first time for testing purposse",
+// }
+
+// const checkJwt = jwt({
+//   // Dynamically provide a signing key based on the key identifier in the header
+//   // and the signing keys provided by the JWKS endpoint.
+//   secret: jwksRsa.expressJwtSecret({
+//     cache: true,
+//     rateLimit: true,
+//     jwksRequestsPerMinute: 5,
+//     jwksUri: `https://${authConfig.domain}/.well-known/jwks.json`,
+//   }),
+
+//   // Validate the audience and the issuer.
+//   audience: authConfig.audience,
+//   issuer: `https://${authConfig.domain}/`,
+//   algorithms: ['RS256'],
+// })
+
+// app.use(checkJwt)
+
+// app.get('/protectedroute', checkJwt, async (req, res) => {
+//   res.send('you are on protected route')
+// })
 app.get('/', async (req, res) => {
   const response = 'aman pratap singh'
   const task = await taskModel.findById('644f471a3c7d565eb5cda996')
@@ -56,7 +82,7 @@ app.post('/recreatetask', async (req, res) => {
   })
   res.send(response)
 })
-app.get('/alltask', checkJwt, async (req, res) => {
+app.get('/alltask', async (req, res) => {
   const tasks = await taskModel.find({})
   res.json(tasks)
 })
