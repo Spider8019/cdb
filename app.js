@@ -5,10 +5,10 @@ const taskModel = require('./models/task')
 const app = express()
 const axios = require('axios')
 const port = 4000
-const { auth } = require('express-oauth2-jwt-bearer')
+// const { auth } = require('express-oauth2-jwt-bearer')
 // const jwt = require('jsonwebtoken')
-const jwksRsa = require('jwks-rsa')
-const { expressjwt: jwt } = require('express-jwt')
+// const jwksRsa = require('jwks-rsa')
+// const { expressjwt: jwt } = require('express-jwt')
 
 mongoose
   .connect(
