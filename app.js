@@ -91,17 +91,17 @@ app.delete('/deletetask', async (req, res) => {
   res.json(response)
 })
 
-app.use((req, res, next) => {
-  const error = new Error('Not Found')
-  error.status = 404
-  next(error)
-})
+// app.use((req, res, next) => {
+//   const error = new Error('Not Found')
+//   error.status = 404
+//   next(error)
+// })
 
-app.use((error, req, res, next) => {
-  const status = error.status || 500
-  const message = error.message || 'Internal server error'
-  res.status(status).send(message)
-})
+// app.use((error, req, res, next) => {
+//   const status = error.status || 500
+//   const message = error.message || 'Internal server error'
+//   res.status(status).send(message)
+// })
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
