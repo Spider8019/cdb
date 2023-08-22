@@ -28,47 +28,6 @@ mongoose
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cors())
-// const checkJwt = auth({
-//   audience: 'this api is created first time for testing purposse',
-//   issuerBaseURL: 'https://dev-j5c8r52qumbdfppi.us.auth0.com/',
-// })
-
-// const authConfig = {
-//   domain:'dev-j5c8r52qumbdfppi.us.auth0.com',
-//   audience: "this api is created first time for testing purposse",
-// }
-
-// const checkJwt = jwt({
-//   // Dynamically provide a signing key based on the key identifier in the header
-//   // and the signing keys provided by the JWKS endpoint.
-//   secret: jwksRsa.expressJwtSecret({
-//     cache: true,
-//     rateLimit: true,
-//     jwksRequestsPerMinute: 5,
-//     jwksUri: `https://${authConfig.domain}/.well-known/jwks.json`,
-//   }),
-
-//   // Validate the audience and the issuer.
-//   audience: authConfig.audience,
-//   issuer: `https://${authConfig.domain}/`,
-//   algorithms: ['RS256'],
-// })
-
-// app.use(checkJwt)
-
-// app.get('/protectedroute', checkJwt, async (req, res) => {
-//   res.send('you are on protected route')
-// })
-
-// {
-//   "userPhoneNumber": "+916005285787",
-//   "password": "$2a$10$gBY5cqIre5OFEBhDILxtcuJGGG8duRXNb85lUFPsY5PgYPR/84sjG",Aman@123
-//   "_id": "64b3e27545b8d3b551a8edb4",
-//   "authorizedTillDate": "2023-08-15T18:30:00.000Z",
-//   "createdAt": "2023-07-16T12:28:37.497Z",
-//   "updatedAt": "2023-07-16T12:28:37.497Z",
-//   "__v": 0
-// }
 
 app.get('/', async (req, res) => {
   const task = await taskModel.findById('644f471a3c7d565eb5cda996')
@@ -155,18 +114,6 @@ app.delete('/deletetask', async (req, res) => {
   const response = await taskModel.findByIdAndDelete(req.body._id)
   res.json(response)
 })
-
-// app.use((req, res, next) => {
-//   const error = new Error('Not Found')
-//   error.status = 404
-//   next(error)
-// })
-
-// app.use((error, req, res, next) => {
-//   const status = error.status || 500
-//   const message = error.message || 'Internal server error'
-//   res.status(status).send(message)
-// })
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
