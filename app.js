@@ -55,16 +55,29 @@ app.post('/login', async (req, res) => {
     var isMatch = await bcrypt.compare(req.body.password, user.password)
     if (isMatch) {
       var token = await user.generateAuthToken()
-      res.send({ token, userPhoneNumber: user.userPhoneNumber,userId:user._id })
+      res.send({
+        token,
+        userPhoneNumber: user.userPhoneNumber,
+        userId: user._id,
+      })
     }
   } catch (err) {
     res.send(err)
   }
 })
-app.post('/logout', auth, async function (req, res) {
+app.post('/logout', async function (req, res) {
   req.user.tokens = []
   req.user.save()
   res.send('Logout')
+})
+app.post('/subscribetask', async (req, res) => {
+  try {
+    const taskId=req.body._id;
+    console.log(taskId)
+    res.send(taskId)
+  } catch (e) {
+    res.send(e)
+  }
 })
 app.post('/addtask', async (req, res) => {
   console.log(req.body)
@@ -92,7 +105,9 @@ app.post('/recreatetask', async (req, res) => {
 })
 app.get('/alltask', async (req, res) => {
   try {
-    const tasks = await taskModel.find({forPublic:true})
+    const tasks = await taskModel.find({ forPublic: { $ne: false } })
+    console.log(tasks.filter(x=>{return x.title==="dubai trip"}))
+    console.log(tasks.length)
     res.send(tasks)
   } catch (err) {
     console.log(err)
@@ -101,7 +116,6 @@ app.get('/alltask', async (req, res) => {
 })
 app.get('/alltaskbyyou', async (req, res) => {
   try {
-    console.log(req.query)
     const tasks = await taskModel.find({
       createdBy: req.query.userId,
     })
